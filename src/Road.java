@@ -14,21 +14,31 @@ public class Road {
 	int rightdnX;
 	int rightdnY;
 	
-	public void setPos(int dx,int dy) {
+	public Road(int x,int y,int dx,int dy,int width) {
+		//¥ª¤W xy  ¥ª¤U dx dy
+		leftupX = x;
+		leftupY = y;
 		
-		leftupX += dx;
+		leftdnX = dx;
+		leftdnY = dy;
+		
+		rightupX = x+width;
+		rightupY = dy;
+		
+		rightdnX = dx +width;
+		rightdnY = dy;
+	}
+	
+	public void setPos(int dy) {
+			
 		leftupY += dy;
-		
-		leftdnX += dx;
+			
 		leftdnY += dy;
 		
-		rightupX += dx;
 		rightupY += dy;
-		
-		rightdnX += dx;
+	
 		rightdnY += dy;
-		
-		
+				
 	}
 	
 	public void Line(Graphics g) {
