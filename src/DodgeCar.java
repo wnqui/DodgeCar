@@ -1,4 +1,5 @@
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -15,8 +16,8 @@ import javax.swing.JPanel;
 public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,MouseMotionListener{
 	
 	//常數
-	public static final int WITDH = 800;
-	public static final int HEIGHT = 600;	
+	public static final int WITDH = 600;
+	public static final int HEIGHT = 800;	
 	//物件
 	static JFrame JF;
 	static DodgeCar DC;
@@ -46,9 +47,11 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 		MP.repaint();
 	}
 	public void repaint(Graphics g) {
-		
+		//白底
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(new BasicStroke(3));
+		g2.setColor(Color.white);	
+		g2.fillRect(0, 0, WITDH, HEIGHT);
 		
 		
 	}
@@ -95,7 +98,7 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 class myJPanel extends JPanel{	
 	private static final long serialVersionUID = 1L;
 
-	public void panitComponent(Graphics g) {
+	public void paintComponent(Graphics g) {
 		DodgeCar.DC.repaint(g);
 	}
 	

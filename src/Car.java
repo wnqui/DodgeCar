@@ -5,6 +5,7 @@ public class Car {
 	private int x;
 	private int y;
 	private int number;
+	private int speed;
 	
 	public void move(int dx,int dy) {
 		//車子移動，玩家車添加 加速貫性。參數dx,dy為移動目的地。
@@ -54,6 +55,12 @@ public class Car {
 	}
 	public void setNumber(int number) {
 		this.number = number;
+	}
+	public int  getSpeed() {
+		return speed;
+	}
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 }
