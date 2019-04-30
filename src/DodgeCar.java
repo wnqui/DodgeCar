@@ -9,9 +9,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,MouseMotionListener{
 	
@@ -24,7 +26,14 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 	static myJPanel MP;
 	public CollisionDetection CD = new CollisionDetection();
 	public Screen screen = new Screen();
+	
+	Car mycar = new Car(1,300,900);
+	ArrayList<Road> roads =new ArrayList<Road>();
+	ArrayList<Car> cars = new ArrayList<Car>();
+	
 	//控制
+	int mouseX;
+	int mouseY;
 
 	public DodgeCar(){
 		
@@ -36,12 +45,80 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 		JF.setVisible(true);
 		MP = new myJPanel();
 		JF.add(MP);
+		JF.addKeyListener(this);
+		JF.addMouseListener(this);
+		JF.addMouseMotionListener(this);
+		Timer T = new Timer(20,this);
+		T.start();
+		
+		roads.add(new Road(200,0,200,HEIGHT,280));
+		roads.add(new Road(300,-HEIGHT,200,0,280));
+		
+		cars.add(new Car(2,(roads.get(0).leftupX +roads.get(0).rightupX)/2,0));
+
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		
+		
+		if(roads.get(0).leftupY > HEIGHT -1 ) {
+			Road nR = roads.get(1);
+			if( (int)(Math.random()*10+1) > 5 ) {
+				//生成直路
+				roads.add(new Road(nR.leftupX,nR.leftupY-HEIGHT,nR.leftupX,nR.leftupY,280));
+			}else {
+				//生成斜路
+				if(nR.leftupX > 250) {
+					roads.add(new Road(200,nR.leftupY-HEIGHT,nR.leftupX,nR.leftupY,280));
+				}else {
+					roads.add(new Road(300,nR.leftupY-HEIGHT,nR.leftupX,nR.leftupY,280));
+				}
+				
+			}
+			
+			
+			roads.remove(0);
+		}
+		
+		if(!mycar.isOver) {
+			
+			mycar.move(mouseX, mouseY);
+			
+			for(int i = 0 ; i < roads.size() ; i++) {
+				Road road = roads.get(i);
+				
+				if(mycar.getY() <= road.leftdnY && mycar.getY() >= road.leftupY ) {
+					//本車邊界判定
+					mycar.isOver = CD.outLine(road, mycar);
+					
+				}
+				
+				road.setPos(10);
+				
+				for(int j =0 ; j < cars.size() ; j++) {
+					Car c = cars.get(j);
+					//其他車移動			
+					c.aiMove(road, 10 );
+					
+					
+					if(c.getY() > HEIGHT) {
+						cars.remove(c);
+						int r =(int) Math.random()*100+100 ;
+						cars.add(new Car(2,roads.get(1).leftdnX + r,0));
+						
+					}
+								
+					
+				}
+			}
+		}
+		
+		
+			
+		
+		if(CD.isCollision(cars, mycar)) mycar.isOver = true;
 		
 		
 		MP.repaint();
@@ -53,27 +130,39 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 		g2.setColor(Color.white);	
 		g2.fillRect(0, 0, WITDH, HEIGHT);
 		
+		for(int i =0 ; i< roads.size() ; i++) {		
+			roads.get(i).drawRoad(g);
+		}
+		
+		mycar.drawCar(g);
+
+		for(int i =0 ; i < cars.size() ; i++) {
+			cars.get(i).drawCar(g);
+		}
 		
 	}
 	public static void main(String[] args) {
 		DC = new DodgeCar();
+		
 	}
 
 
 
 
 	@Override
-	public void keyPressed(KeyEvent arg0) {
+	public void keyPressed(KeyEvent e) {
 		//按鍵控制
 		
 	}
 	@Override
-	public void mousePressed(MouseEvent arg0) {
+	public void mousePressed(MouseEvent e) {
 		//點擊控制
 	}
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
+	public void mouseMoved(MouseEvent e) {
 		//移動控制車子
+		mouseX = e.getX()-3;
+		mouseY = e.getY()-32;
 		
 	}
 	@Override
