@@ -34,6 +34,7 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 	//控制
 	int mouseX;
 	int mouseY;
+	int speed;
 
 	public DodgeCar(){
 		
@@ -55,7 +56,7 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 		roads.add(new Road(300,-HEIGHT,200,0,280));
 		
 		cars.add(new Car(2,(roads.get(0).leftupX +roads.get(0).rightupX)/2,0));
-
+		//cars.add(new Car(3,(roads.get(0).leftupX +roads.get(0).rightupX)/2,-300));
 	}
 	
 	@Override
@@ -100,25 +101,52 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 				for(int j =0 ; j < cars.size() ; j++) {
 					Car c = cars.get(j);
 					//其他車移動			
-					c.aiMove(road, 10 );
+					c.aiMove(road);
 					
 					
 					if(c.getY() > HEIGHT) {
 						cars.remove(c);
-						int r =(int) Math.random()*100+100 ;
-						cars.add(new Car(2,roads.get(1).leftdnX + r,0));
+						int r ;
+						
+						int car =(int) ( Math.random()*5+1);
+						switch(car) {
+						case 1:
+							r =(int) Math.random()*100+100 ;
+							cars.add(new Car(2,roads.get(1).leftdnX + 50,0));
+							break;
+						case 2:
+							r =(int) Math.random()*100+100 ;
+							cars.add(new Car(2,roads.get(1).leftdnX + 100,0));
+							break;
+						case 3:
+							r =(int) Math.random()*100+100 ;
+							cars.add(new Car(3,roads.get(1).leftdnX + 150,-100));
+							break;
+						case 4:
+							r =(int) Math.random()*100+100 ;
+							cars.add(new Car(2,roads.get(1).leftdnX + 70,0));
+							break;
+						case 5:
+							r =(int) Math.random()*100+100 ;
+							cars.add(new Car(3,roads.get(1).leftdnX + 30,-100));
+							break;
+							
+						}
+						
 						
 					}
 								
 					
 				}
+				if(CD.isCollision(cars, mycar)) mycar.isOver = true;
 			}
+			
 		}
 		
 		
 			
 		
-		if(CD.isCollision(cars, mycar)) mycar.isOver = true;
+		
 		
 		
 		MP.repaint();
@@ -153,6 +181,10 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 	public void keyPressed(KeyEvent e) {
 		//按鍵控制
 		
+		if(speed < mycar.getSpeed() && e.getKeyCode() == KeyEvent.VK_SPACE) {
+			speed ++;
+		}
+		
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -166,7 +198,12 @@ public class DodgeCar implements ActionListener ,KeyListener ,MouseListener,Mous
 		
 	}
 	@Override
-	public void keyReleased(KeyEvent arg0) {}
+	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			speed =0;
+		}
+		
+	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
 	@Override

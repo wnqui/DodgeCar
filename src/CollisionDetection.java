@@ -6,17 +6,17 @@ public class CollisionDetection {
 		public boolean isCollision(ArrayList<Car> car ,Car mycar) {
 			//車輛碰撞檢查
 			for(int i = 0 ; i < car.size() ; i++) {
-				
-				if(mycar.getX() <= car.get(i).getX() && mycar.getX()+mycar.getWidth() <= car.get(i).getX() ){
+				Car cars = car.get(i);
+				if(mycar.getX() <= cars.getX() && mycar.getX()+mycar.getWidth() <= cars.getX() ){
 					//車在目標左邊不相交
 					return false;
-				}else if(mycar.getX() >= car.get(i).getX() && mycar.getX() >= car.get(i).getX() + car.get(i).getWidth() ){
+				}else if(mycar.getX() >= cars.getX() && mycar.getX() >= cars.getX() + cars.getWidth() ){
 					//車在目標右邊不相交
 					return false;
-				}else if(mycar.getY() >= car.get(i).getY() && mycar.getY() >= car.get(i).getY() + car.get(i).getHeight()){
+				}else if(mycar.getY() >= cars.getY() && mycar.getY() >= cars.getY() + cars.getHeight()){
 					//車在目標下邊面不相交
 					return false;
-				}else if(mycar.getY() <= car.get(i).getY() && mycar.getY() + mycar.getHeight() <= car.get(i).getY() ) {
+				}else if(mycar.getY() <= cars.getY() && mycar.getY() + mycar.getHeight() <= cars.getY() ) {
 					//車在目標上面不相交
 					return false;
 				}		

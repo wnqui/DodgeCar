@@ -44,14 +44,14 @@ public class Car {
 			this.y = y;
 			this.setWidth(30);
 			this.setHeight(50);
-			this.speed = 5;
+			this.speed = 10;
 			break;
 		case 3:
 			//電腦大車
 			this.number = number;
 			this.x = x;
 			this.y = y;
-			this.setWidth(40);
+			this.setWidth(50);
 			this.setHeight(150);
 			this.speed = 10;
 			break;
@@ -120,21 +120,19 @@ public class Car {
 		
 	}
 	
-	public void aiMove(Road road,int dy) {
+	public void aiMove(Road road) {
 		double m ;
 		if( (road.leftupX != road.leftdnX ) && y >= road.leftupY && x <= road.leftdnY) {
 		
 			
 			m = (road.leftupY - road.leftdnY) / ( road.leftupX - road.leftdnX ) ;
 			
-			this.x += dy/m;
+			this.x += (speed / m);
 			
 		}
 			
-		
-		
-		
-		this.y += dy;
+				
+		this.y += speed;;
 		
 	}
 	
@@ -161,6 +159,10 @@ public class Car {
 			break;
 		case 3:
 			//電腦大車
+			g2.setColor(Color.yellow);
+			g2.fillRect(x, y, width, height);
+			g2.setColor(Color.black);
+			g2.drawRect(x, y, width, height);
 			
 			break;
 		case 4:
