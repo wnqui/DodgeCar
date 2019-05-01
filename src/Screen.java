@@ -11,7 +11,7 @@ public class Screen {
 	}
 	
 	public void GameOver(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
+		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(3));
 		
 	}
