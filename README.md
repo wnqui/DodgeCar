@@ -14,3 +14,5 @@ Java練習，2D物件碰撞練習。
 　　　　D=A*xp+B*yp+C  
   若D<0，則點P在直線的左側；若D>0，則點P在直線的右側；若D＝0，則點P在直線上。  
   <p.s.直線有方向性>  
+
+![image](https://github.com/wnqui/DodgeCar/blob/master/DodgeCar.jpg)
